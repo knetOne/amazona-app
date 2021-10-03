@@ -6,8 +6,8 @@ import Product from "../models/productModel.js";
 const productRouter = express.Router();
 
 productRouter.get('/', expressAsyncHandler(async( req, res) =>{
-    const produtcs = await Product.find({});
-    res.send(produtcs);
+    const products = await Product.find({});
+    res.send(products);
 }));
 
 productRouter.get('/seed', expressAsyncHandler(async(req, res) =>{

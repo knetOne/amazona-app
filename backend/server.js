@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1/amazona')
     .catch(err => console.log( err ));
 
 app.use('/api/users', userRouter);
-app.use('/api/products', productRouter);
+app.use('/api/product', productRouter);
 
 app.get('/', (req, res) => {
     res.send('Server is ready');
