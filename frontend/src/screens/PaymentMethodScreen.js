@@ -5,8 +5,8 @@ import CheckoutSteps from '../components/CheckoutSteps'
 
 function PaymentMethodScreen(props) {
     const cart = useSelector(state => state.cart);
-    const { shippingAdress } = cart;
-    if(!shippingAdress.adress){
+    const { shippingAddress } = cart;
+    if(!shippingAddress.address){
         props.history.push('/shipping')
     }
     const [paymentMethod, setPaymentMethod] = useState('PayPal');
@@ -47,7 +47,7 @@ function PaymentMethodScreen(props) {
                             required 
                             onChannge={(e) => setPaymentMethod(e.target.value)}
                         ></input>
-                        <label htmlFor="stripe" >stripe</label>
+                        <label htmlFor="stripe" >Stripe</label>
                     </div>
                 </div>
                 <div>

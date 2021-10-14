@@ -40,7 +40,7 @@ export default function RegisterScreen(props) {
                 {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
                 <div>
-                    <label htmlFor="name">Name adress</label>
+                    <label htmlFor="name">Name address</label>
                     <input
                         type="name"
                         id="name"
@@ -50,7 +50,7 @@ export default function RegisterScreen(props) {
                     ></input>
                 </div>
                 <div>
-                    <label htmlFor="email">Email adress</label>
+                    <label htmlFor="email">Email address</label>
                     <input
                         type="email"
                         id="email"

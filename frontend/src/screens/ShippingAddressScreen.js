@@ -1,34 +1,34 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { saveShippingAdress } from '../actions/cartAction';
+import { saveshippingAddress } from '../actions/cartAction';
 import CheckoutSteps from '../components/CheckoutSteps'
 
-function ShippingAdressScreen(props) {
+function ShippingAddressScreen(props) {
     const userSignin = useSelector(state => state.userSignin);
     const { userInfo } = userSignin;
     const cart  = useSelector(state => state.cart);
-    const {shippingAdress} = cart;
+    const {shippingAddress} = cart;
     if(!userInfo){
         props.history.push('/signin')
     }
-    const [fullName, setFullName] = useState(shippingAdress.fullName);
-    const [adress, setAdress] = useState(shippingAdress.adress);
-    const [city, setCity] = useState(shippingAdress.city);
-    const [postalCode, setPostalCode] = useState(shippingAdress.postalCode);
-    const [country, setCountry] = useState(shippingAdress.country);
+    const [fullName, setFullName] = useState(shippingAddress.fullName);
+    const [address, setaddress] = useState(shippingAddress.address);
+    const [city, setCity] = useState(shippingAddress.city);
+    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+    const [country, setCountry] = useState(shippingAddress.country);
     const dispatch = useDispatch();
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveShippingAdress({fullName, adress, city, postalCode, country}));
+        dispatch(saveshippingAddress({fullName, address, city, postalCode, country}));
         props.history.push('/payment');
-        // TODO: dispatch save shipping adress action
+        // TODO: dispatch save shipping address action
     } 
     return (
         <div>
             <CheckoutSteps step1 step2></CheckoutSteps>
             <form className="form" onSubmit={submitHandler}>
                 <div>
-                    <h1>Shipping Adress</h1>
+                    <h1>Shipping address</h1>
                 </div>
                 <div>
                     <label htmlFor="fullName">Full name</label>
@@ -42,13 +42,13 @@ function ShippingAdressScreen(props) {
                     ></input>
                 </div>
                 <div>
-                    <label htmlFor="adress">Adress</label>
+                    <label htmlFor="address">address</label>
                     <input
                         type="text"
-                        id="adress"
-                        placeholder="Enter adress"
-                        value={adress}
-                        onChange={(e) => setAdress(e.target.value)}
+                        id="address"
+                        placeholder="Enter address"
+                        value={address}
+                        onChange={(e) => setaddress(e.target.value)}
                         required
                     ></input>
                 </div>
@@ -96,4 +96,4 @@ function ShippingAdressScreen(props) {
     )
 }
 
-export default ShippingAdressScreen
+export default ShippingAddressScreen
