@@ -4,6 +4,7 @@ import { detailsProduct, updateProduct } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import Axios from 'axios';
 
 function ProductEditScreen(props) {
     const productId = props.match.params.id;
@@ -52,6 +53,28 @@ function ProductEditScreen(props) {
         // TODO: dispatch update product
         dispatch(updateProduct({_id: productId, name, price, image, category, brand, countInStock, description}))
     };
+    const [loadingUpload, setLoadingUpload] = useState(false);
+    const [errorUpload, setErrorUpload] = useState('');
+
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
+
+    const uploadFileHandler = async(e) => {
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append('image', file);
+        setLoadingUpload(true);
+        try {
+            const {data} = await Axios.post('/api/uploads', bodyFormData, {
+                headers: { 'Content-Type':'multipart/form-data', Authorization: `Bearer ${userInfo.token}`}
+            });
+            setImage(data);
+            setLoadingUpload(false);
+        } catch (error) {
+            setErrorUpload('what happen : ' + error.message);
+            setLoadingUpload(false)
+        }
+    }
     return (
         <div>
             <form className="form" onSubmit={submitHandler}>
@@ -66,15 +89,21 @@ function ProductEditScreen(props) {
                 <>
                     <div>
                         <label htmlFor="name">Name</label>
-                        <input id="name" type="text" placheholder="Enter name" value={name} onChange={(e => setName(e.target.value))}></input>
+                        <input id="name" type="text" placheholder="Enter name" value={name} onChange={(e) => setName(e.target.value)}></input>
                     </div>
                     <div>
                         <label htmlFor="price">Price</label>
-                        <input id="price" type="text" placheholder="Enter price" value={price} onChange={(e => setPrice(e.target.value))}></input>
+                        <input id="price" type="text" placheholder="Enter price" value={price} onChange={(e) => setPrice(e.target.value)}></input>
                     </div>
                     <div>
                         <label htmlFor="image">Image</label>
-                        <input id="image" type="text" placheholder="Enter image" value={image} onChange={(e => setImage(e.target.value))}></input>
+                        <input id="image" type="text" placheholder="Enter image" value={image} onChange={(e) => setImage(e.target.value)}></input>
+                    </div>
+                    <div>
+                        <label htmlFor="imageFile">Image File</label>
+                        <input id="imageFile" type="file" placheholder="Choose image" onChange={uploadFileHandler}></input>
+                        {loadingUpload && <LoadingBox></LoadingBox>}
+                        {errorUpload && (<MessageBox variant="danger">{errorUpload}</MessageBox>)}
                     </div>
                     <div>
                         <label htmlFor="category">Category</label>
