@@ -85,7 +85,7 @@ export const listOrderMine = () => async (dispatch, getState) =>{
     dispatch({ type: ORDER_MINE_LIST_REQUEST});
     const {userSignin: {userInfo}} = getState();
     try{
-        const { data } = await Axios.get('api/orders/mine', {
+        const { data } = await Axios.get('/api/orders/mine', {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({ type: ORDER_MINE_LIST_SUCCESS, payload: data})
@@ -98,11 +98,11 @@ export const listOrderMine = () => async (dispatch, getState) =>{
     }
 }
 
-export const listOrders = () => async (dispatch, getState) => {
+export const listOrders = ({seller=''}) => async (dispatch, getState) => {
     dispatch({ type: ORDER_LIST_REQUEST});
     const {userSignin: {userInfo}} = getState();
     try {
-        const { data } = await Axios.get('api/orders/', {
+        const { data } = await Axios.get(`/api/orders?seller=${seller}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({ type: ORDER_LIST_SUCCESS, payload: data})
@@ -119,7 +119,7 @@ export const deleteOrder = (orderId) => async(dispatch, getState) => {
     dispatch({ type: ORDER_DELETE_REQUEST});
     const {userSignin: {userInfo}} = getState();
     try {
-        const { data } = await Axios.delete(`api/orders/${orderId}`, {
+        const { data } = await Axios.delete(`/api/orders/${orderId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({ type: ORDER_DELETE_SUCCESS, payload: data})
